@@ -1,0 +1,46 @@
+.container {
+    margin: 20px auto;
+}
+
+.result {
+    margin: 20px auto;
+    padding: 20px;
+    border:solid 2px #cccccc;
+}
+
+.first-name.ng-valid {
+    background-color: whitesmoke;
+}
+.first-name.ng-invalid-pattern {
+    background-color: #f0eded;
+}
+
+.last-name.ng-valid {
+    background-color: whitesmoke;
+}
+.last-name.ng-invalid-pattern {
+    background-color: lightcoral;
+}
+
+.middle-name.ng-valid {
+    background-color: whitesmoke;
+}
+.middle-name.ng-invalid-pattern {
+    background-color: lightcoral;
+}
+
+
+.position.ng-valid {
+    background-color: whitesmoke;
+}
+.position.ng-invalid-pattern {
+    background-color: lightcoral;
+}
+
+
+.birthday.ng-valid {
+    background-color: whitesmoke;
+}
+.birthday.ng-dirty.ng-invalid-pattern {
+    background-color: lightcoral;
+}

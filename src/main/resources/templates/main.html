@@ -1,0 +1,127 @@
+<html>
+<head>
+    <!-- LIBS CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <!-- LIBS JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+    <script src="/js/app3.js"></script>
+    <script src="/js/employeeService.js"></script>
+    <script src="/js/employeeController.js"></script>
+
+</head>
+<body ng-app="myApp" class="ng-cloak">
+<div class="container" ng-controller="UserController as ctrl">
+
+    <div class="panel panel-default">
+        <div class="col-md-3"></div>
+        <div class="panel-heading">
+            <span class="lead">Поиск сотрудников (заполните любые известные данные)</span>
+        </div>
+        <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
+            <input type="hidden" ng-model="ctrl.user.id" />
+
+            <div class="alert alert-danger" ng-show="ctrl.error.message != null ">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Server error:</strong> {{ctrl.error.message}}
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3"></div>
+                    <label class="col-md-2 control-lable" for="firstName">Имя</label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="ctrl.user.firstName" id="firstName" name="firstName" class="first-name form-control input-sm" placeholder="Enter your name" ng-pattern="/^[а-яА-ЯёЁa-zA-Z][а-яА-ЯёЁa-zA-Z0-9]{0,40}$/" />
+                        <span ng-show="myForm.firstName.$error.pattern">Имя введено некорректно</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3"></div>
+                    <label class="col-md-2 control-lable" for="lastName">Фамилия</label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="ctrl.user.lastName" id="lastName" name="lastName" class="last-name form-control input-sm" placeholder="Enter your last name" ng-pattern="/^[а-яА-ЯёЁa-zA-Z][а-яА-ЯёЁa-zA-Z0-9]{0,40}$/"/>
+                        <span ng-show="myForm.lastName.$error.pattern">Фамилия введена некорректно</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3"></div>
+                    <label class="col-md-2 control-lable" for="middleName">Отчество</label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="ctrl.user.middleName" id="middleName" name="middleName" class="middle-name form-control input-sm" placeholder="Enter your middle name" ng-pattern="/^[а-яА-ЯёЁa-zA-Z][а-яА-ЯёЁa-zA-Z0-9]{0,40}$/"/>
+                        <span ng-show="myForm.middleName.$error.pattern">Отчество введено некорректно</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3"></div>
+                    <label class="col-md-2 control-lable" for="position">Должность</label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="ctrl.user.position" id="position" name="position" class="position form-control input-sm" placeholder="Enter your position" ng-pattern="/^[а-яА-ЯёЁa-zA-Z][а-яА-ЯёЁa-zA-Z0-9]{0,40}$/"/>
+                        <span ng-show="myForm.position.$error.pattern">Должность введена некорректно</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3"></div>
+                    <label class="col-md-2 control-lable" for="birthday">Дата рождения</label>
+                    <div class="col-md-4">
+                        <input type="text" ng-model="ctrl.user.birthday" id="birthday" name="birthday" class="birthday form-control input-sm" placeholder="Enter your birthday" ng-pattern="/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/"/>
+                        <span ng-show="myForm.birthday.$error.pattern">Введите дату рождения в формате yyyy-mm-dd</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-4">
+                        <input type="submit"  value="Поиск" class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid" />
+                        <button type="button" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine" ng-click="reset()">Сбросить</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="panel-result panel panel-default" ng-show="ctrl.error.message == null" name="results"> <!--myForm.$valid &amp;&amp;-->
+        <!-- Default panel contents -->
+        <div class="panel-heading"><span class="lead">Список сотрудников </span></div>
+        <div class="tablecontainer">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID.</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Отчетсво</th>
+                    <th>Должность</th>
+                    <th>Дата рождения</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="u in ctrl.users">
+                    <td><span ng-bind="u.id"></span></td>
+                    <td><span ng-bind="u.firstName"></span></td>
+                    <td><span ng-bind="u.lastName"></span></td>
+                    <td><span ng-bind="u.middleName"></span></td>
+                    <td><span ng-bind="u.position"></span></td>
+                    <td><span ng-bind="u.birthday"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
